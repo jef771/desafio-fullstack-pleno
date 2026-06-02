@@ -1,0 +1,6 @@
+set shell := ["bash", "-cu"]
+
+test:
+    docker compose up -d
+    DATABASE_TEST_URL="host=localhost port=5432 user=admin password=password dbname=dbp_test sslmode=disable" \
+    go test ./... -v
