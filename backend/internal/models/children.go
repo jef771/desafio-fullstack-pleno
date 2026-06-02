@@ -6,17 +6,17 @@ import (
 )
 
 type Child struct {
-	ID             string
-	Nome           string
+	ID             string `json:"id"`
+	Nome           string `json:"nome"`
 	DataNascimento string `json:"data_nascimento"`
-	Bairro         string
-	Responsavel    string
+	Bairro         string `json:"bairro"`
+	Responsavel    string `json:"responsavel"`
 
-	Saude             json.RawMessage
-	Educacao          json.RawMessage
+	Saude             json.RawMessage `json:"saude"`
+	Educacao          json.RawMessage `json:"educacao"`
 	AssistenciaSocial json.RawMessage `json:"assistencia_social"`
 
-	Revisado    bool
+	Revisado    bool       `json:"revisado"`
 	RevisadoPor *string    `json:"revisado_por"`
 	RevisadoEm  *time.Time `json:"revisado_em"`
 }
