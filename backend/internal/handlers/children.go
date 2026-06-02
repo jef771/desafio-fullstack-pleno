@@ -6,7 +6,6 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jef771/desafio-backend-pleno/internal"
 	"github.com/jef771/desafio-backend-pleno/internal/models"
 	"github.com/jef771/desafio-backend-pleno/internal/services"
 )
@@ -16,7 +15,6 @@ type Handler struct {
 }
 
 func NewHandler(
-	secrets *internal.Secrets,
 	api services.ApiService,
 ) *Handler {
 	return &Handler{
@@ -104,4 +102,17 @@ func (h *Handler) Review(c *gin.Context) {
 	}
 
 	c.Status(http.StatusNoContent)
+}
+
+func (h *Handler) Summary(c *gin.Context) {
+	response, err := h.Api.GetSummary()
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "internal error",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, response)
 }

@@ -21,6 +21,8 @@ type ApiService interface {
 		ID string,
 		username string,
 	) (string, error)
+
+	GetSummary() (models.Summary, error)
 }
 
 type apiService struct {
@@ -108,4 +110,14 @@ func (s *apiService) ReviewChild(ID string, username string) (string, error) {
 	}
 
 	return updatedID, nil
+}
+
+func (s *apiService) GetSummary() (models.Summary, error) {
+	summary, err := s.repo.Summary()
+
+	if err != nil {
+		return models.Summary{}, err
+	}
+
+	return summary, nil
 }

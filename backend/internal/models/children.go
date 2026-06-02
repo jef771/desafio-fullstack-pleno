@@ -36,3 +36,14 @@ type Filter struct {
 	Page int `form:"page"`
 	Size int `form:"page_size"`
 }
+
+type Summary struct {
+	TotalOfChildren int             `json:"total_of_children"`
+	AlertsByDomain  []AlertByDomain `json:"alerts_by_domain"`
+	AlreadyReviewed int             `json:"already_reviewed"`
+}
+
+type AlertByDomain struct {
+	Name  string `json:"domain_name"`
+	Total int    `json:"total"`
+}

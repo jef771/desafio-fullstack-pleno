@@ -40,5 +40,10 @@ func AddRoutes(h *handlers.Handler, s *internal.Secrets) *gin.Engine {
 		h.Review,
 	)
 
+	auth.GET(
+		"/summary",
+		h.Summary,
+	)
+
 	return r
 }

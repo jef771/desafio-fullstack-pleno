@@ -31,7 +31,7 @@ func main() {
 
 	repo := repository.NewChildrenRepository(db)
 	apiService := services.NewApiService(repo)
-	handler := handlers.NewHandler(secrets, apiService)
+	handler := handlers.NewHandler(apiService)
 	engine := router.AddRoutes(handler, secrets)
 
 	if err := engine.Run(":8080"); err != nil {

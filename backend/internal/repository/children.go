@@ -12,6 +12,7 @@ type ChildrenRepository interface {
 	List(filter models.Filter) ([]models.Child, error)
 	Count(filter models.Filter) (int, error)
 	Review(ID string, username string) (string, error)
+	Summary() (models.Summary, error)
 }
 
 type childrenRepository struct {
@@ -223,4 +224,71 @@ func (r *childrenRepository) Review(id string, username string) (string, error) 
 	}
 
 	return returnedID, err
+}
+
+func (r *childrenRepository) Summary() (models.Summary, error) {
+	stmt := `
+		SELECT
+			COUNT(*) AS total_children,
+
+			COUNT(*) FILTER (
+				WHERE revisado = true
+			) AS reviewed_children,
+
+			COUNT(*) FILTER (
+				WHERE saude IS NOT NULL
+					AND jsonb_array_length(saude->'alertas') > 0
+			) AS health_alerts,
+
+			COUNT(*) FILTER (
+				WHERE educacao IS NOT NULL
+					AND jsonb_array_length(educacao->'alertas') > 0
+			) AS education_alerts,
+
+			COUNT(*) FILTER (
+				WHERE assistencia_social IS NOT NULL
+					AND jsonb_array_length(assistencia_social->'alertas') > 0
+			) AS social_assistance_alerts
+
+		FROM children;
+	`
+
+	var (
+		totalChildren          int
+		alreadyReviewed        int
+		healthAlerts           int
+		educationAlerts        int
+		socialAssistanceAlerts int
+	)
+
+	err := r.DB.QueryRow(stmt).Scan(
+		&totalChildren,
+		&alreadyReviewed,
+		&healthAlerts,
+		&educationAlerts,
+		&socialAssistanceAlerts,
+	)
+
+	if err != nil {
+		return models.Summary{}, err
+	}
+
+	return models.Summary{
+		TotalOfChildren: totalChildren,
+		AlreadyReviewed: alreadyReviewed,
+		AlertsByDomain: []models.AlertByDomain{
+			{
+				Name:  "saude",
+				Total: healthAlerts,
+			},
+			{
+				Name:  "educacao",
+				Total: educationAlerts,
+			},
+			{
+				Name:  "assistencia_social",
+				Total: socialAssistanceAlerts,
+			},
+		},
+	}, nil
 }
