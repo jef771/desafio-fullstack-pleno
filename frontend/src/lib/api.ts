@@ -68,3 +68,24 @@ export async function getChildren(
 
   return response.json();
 }
+
+export async function getChild(
+  token: string,
+  id: string
+) {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/children/${id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to load child");
+  }
+
+  return response.json();
+}
