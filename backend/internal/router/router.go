@@ -30,5 +30,10 @@ func AddRoutes(h *handlers.Handler, s *internal.Secrets) *gin.Engine {
 		h.List,
 	)
 
+	auth.GET(
+		"/children/:id",
+		h.Get,
+	)
+
 	return r
 }

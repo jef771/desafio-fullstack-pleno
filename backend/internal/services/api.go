@@ -8,7 +8,11 @@ import (
 type ApiService interface {
 	ListChildren(
 		filter models.Filter,
-	) (*models.ListChildrenResponse, error)
+	) (models.ListChildrenResponse, error)
+
+	GetChild(
+		ID string,
+	) (models.Child, error)
 }
 
 type apiService struct {
@@ -21,7 +25,7 @@ func NewApiService(repo repository.ChildrenRepository) ApiService {
 	}
 }
 
-func (s *apiService) ListChildren(filter models.Filter) (*models.ListChildrenResponse, error) {
+func (s *apiService) ListChildren(filter models.Filter) (models.ListChildrenResponse, error) {
 
 	if filter.Page < 1 {
 		filter.Page = 1
@@ -34,13 +38,13 @@ func (s *apiService) ListChildren(filter models.Filter) (*models.ListChildrenRes
 	total, err := s.repo.Count(filter)
 
 	if err != nil {
-		return nil, err
+		return models.ListChildrenResponse{}, err
 	}
 
 	children, err := s.repo.List(filter)
 
 	if err != nil {
-		return nil, err
+		return models.ListChildrenResponse{}, err
 	}
 
 	response := models.ListChildrenResponse{
@@ -66,5 +70,20 @@ func (s *apiService) ListChildren(filter models.Filter) (*models.ListChildrenRes
 		})
 	}
 
-	return &response, nil
+	return response, nil
+}
+
+func (s *apiService) GetChild(ID string) (models.Child, error) {
+
+	response, err := s.repo.Get(ID)
+
+	if err != nil {
+		return models.Child{}, err
+	}
+
+	if response.ID == "" {
+		return models.Child{}, nil
+	}
+
+	return response, nil
 }

@@ -8,6 +8,7 @@ import (
 )
 
 type ChildrenRepository interface {
+	Get(ID string) (models.Child, error)
 	List(filter models.Filter) ([]models.Child, error)
 	Count(filter models.Filter) (int, error)
 	MarkAsRevisado(id int) error
@@ -21,6 +22,45 @@ func NewChildrenRepository(DB *sql.DB) ChildrenRepository {
 	return &childrenRepository{
 		DB: DB,
 	}
+}
+
+func (r *childrenRepository) Get(ID string) (models.Child, error) {
+	stmt := `
+				SELECT
+    				id,
+    				nome,
+	    			data_nascimento,
+    				bairro,
+    				responsavel,
+    				saude,
+    				educacao,
+    				assistencia_social,
+    				revisado,
+    				revisado_por,
+    				revisado_em
+				FROM children
+				WHERE id = $1;
+	`
+
+	var child models.Child
+	err := r.DB.QueryRow(stmt, ID).Scan(
+		&child.ID,
+		&child.Nome,
+		&child.DataNascimento,
+		&child.Bairro,
+		&child.Responsavel,
+		&child.Saude,
+		&child.Educacao,
+		&child.AssistenciaSocial,
+		&child.Revisado,
+		&child.RevisadoPor,
+		&child.RevisadoEm)
+
+	if err != nil {
+		return models.Child{}, err
+	}
+
+	return child, nil
 }
 
 func (r *childrenRepository) List(filter models.Filter) ([]models.Child, error) {
@@ -164,10 +204,10 @@ func (r *childrenRepository) Count(filter models.Filter) (int, error) {
 	return total, nil
 }
 
-func (m *childrenRepository) MarkAsRevisado(id int) error {
+func (r *childrenRepository) MarkAsRevisado(id int) error {
 	stmt := `UPDATE children SET revisado = true WHERE id = $1`
 
-	_, err := m.DB.Exec(stmt, id)
+	_, err := r.DB.Exec(stmt, id)
 	if err != nil {
 		return err
 	}

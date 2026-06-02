@@ -1,6 +1,8 @@
 package handlers
 
 import (
+	"database/sql"
+	"errors"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -31,7 +33,7 @@ func (h *Handler) List(c *gin.Context) {
 	var filter models.Filter
 
 	if err := c.ShouldBindQuery(&filter); err != nil {
-		c.JSON(400, gin.H{
+		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "invalid query parameters",
 		})
 		return
@@ -39,11 +41,38 @@ func (h *Handler) List(c *gin.Context) {
 
 	response, err := h.Api.ListChildren(filter)
 	if err != nil {
-		c.JSON(500, gin.H{
+		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": "internal error",
 		})
 		return
 	}
 
-	c.JSON(200, response)
+	c.JSON(http.StatusOK, response)
+}
+
+func (h *Handler) Get(c *gin.Context) {
+	id := c.Param("id")
+	if id == "" {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "missing child id",
+		})
+		return
+	}
+
+	response, err := h.Api.GetChild(id)
+
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			c.JSON(http.StatusNotFound, gin.H{
+				"error": "child not found",
+			})
+			return
+		}
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "internal error",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, response)
 }
