@@ -69,6 +69,8 @@ export async function getChildren(
   return response.json();
 }
 
+import { notFound } from "next/navigation";
+
 export async function getChild(
   token: string,
   id: string
@@ -82,6 +84,10 @@ export async function getChild(
       cache: "no-store",
     }
   );
+
+  if (response.status === 404) {
+    notFound();
+  }
 
   if (!response.ok) {
     throw new Error("Failed to load child");
