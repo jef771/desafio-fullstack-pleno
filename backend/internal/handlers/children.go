@@ -76,3 +76,32 @@ func (h *Handler) Get(c *gin.Context) {
 
 	c.JSON(http.StatusOK, response)
 }
+
+func (h *Handler) Review(c *gin.Context) {
+	id := c.Param("id")
+	username := c.MustGet("preferred_username").(string)
+
+	if id == "" {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "missing child id",
+		})
+		return
+	}
+
+	updatedID, err := h.Api.ReviewChild(id, username)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "internal error",
+		})
+		return
+	}
+
+	if updatedID == "" {
+		c.JSON(http.StatusNotFound, gin.H{
+			"error": "child not found",
+		})
+	}
+
+	c.Status(http.StatusNoContent)
+}

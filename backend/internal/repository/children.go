@@ -11,7 +11,7 @@ type ChildrenRepository interface {
 	Get(ID string) (models.Child, error)
 	List(filter models.Filter) ([]models.Child, error)
 	Count(filter models.Filter) (int, error)
-	MarkAsRevisado(id int) error
+	Review(ID string, username string) (string, error)
 }
 
 type childrenRepository struct {
@@ -204,12 +204,23 @@ func (r *childrenRepository) Count(filter models.Filter) (int, error) {
 	return total, nil
 }
 
-func (r *childrenRepository) MarkAsRevisado(id int) error {
-	stmt := `UPDATE children SET revisado = true WHERE id = $1`
+func (r *childrenRepository) Review(id string, username string) (string, error) {
+	var returnedID string
 
-	_, err := r.DB.Exec(stmt, id)
+	err := r.DB.QueryRow(
+		`UPDATE children
+		 SET revisado = true,
+		     revisado_por = $1,
+		     revisado_em = NOW()
+		 WHERE id = $2
+		 RETURNING id`,
+		username,
+		id,
+	).Scan(&returnedID)
+
 	if err != nil {
-		return err
+		return returnedID, err
 	}
-	return nil
+
+	return returnedID, err
 }

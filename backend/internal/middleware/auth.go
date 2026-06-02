@@ -35,7 +35,7 @@ func Auth(secret string) gin.HandlerFunc {
 
 		claims := token.Claims.(jwt.MapClaims)
 
-		cpf, ok := claims["preferred_username"].(string)
+		email, ok := claims["preferred_username"].(string)
 		if !ok {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
 				"error": "invalid token claims",
@@ -43,7 +43,7 @@ func Auth(secret string) gin.HandlerFunc {
 			return
 		}
 
-		c.Set("cpf", cpf)
+		c.Set("preferred_username", email)
 
 		c.Next()
 	}

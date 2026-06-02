@@ -35,5 +35,10 @@ func AddRoutes(h *handlers.Handler, s *internal.Secrets) *gin.Engine {
 		h.Get,
 	)
 
+	auth.PATCH(
+		"/children/:id/review",
+		h.Review,
+	)
+
 	return r
 }

@@ -1,6 +1,9 @@
 package services
 
 import (
+	"database/sql"
+	"errors"
+
 	"github.com/jef771/desafio-backend-pleno/internal/models"
 	"github.com/jef771/desafio-backend-pleno/internal/repository"
 )
@@ -13,6 +16,11 @@ type ApiService interface {
 	GetChild(
 		ID string,
 	) (models.Child, error)
+
+	ReviewChild(
+		ID string,
+		username string,
+	) (string, error)
 }
 
 type apiService struct {
@@ -86,4 +94,18 @@ func (s *apiService) GetChild(ID string) (models.Child, error) {
 	}
 
 	return response, nil
+}
+
+func (s *apiService) ReviewChild(ID string, username string) (string, error) {
+
+	updatedID, err := s.repo.Review(ID, username)
+
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return "", nil
+		}
+		return "", err
+	}
+
+	return updatedID, nil
 }
