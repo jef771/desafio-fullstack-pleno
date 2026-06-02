@@ -1,6 +1,7 @@
 package router
 
 import (
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/jef771/desafio-backend-pleno/internal"
 	"github.com/jef771/desafio-backend-pleno/internal/handlers"
@@ -9,6 +10,23 @@ import (
 
 func AddRoutes(h *handlers.Handler, s *internal.Secrets) *gin.Engine {
 	r := gin.Default()
+
+	r.Use(cors.New(cors.Config{
+		AllowOrigins: []string{
+			"http://localhost:3000",
+		},
+		AllowMethods: []string{
+			"GET",
+			"POST",
+			"PATCH",
+			"OPTIONS",
+		},
+		AllowHeaders: []string{
+			"Origin",
+			"Content-Type",
+			"Authorization",
+		},
+	}))
 
 	r.GET(
 		"/ping",
