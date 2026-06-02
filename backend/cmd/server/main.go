@@ -27,11 +27,15 @@ func main() {
 
 	secrets := &internal.Secrets{
 		JWTSecret: os.Getenv("JWT_SECRET"),
+		Credentials: internal.Credentials{
+			Username: os.Getenv("USERNAME"),
+			Password: os.Getenv("PASSWORD"),
+		},
 	}
 
 	repo := repository.NewChildrenRepository(db)
 	apiService := services.NewApiService(repo)
-	handler := handlers.NewHandler(apiService)
+	handler := handlers.NewHandler(apiService, secrets)
 	engine := router.AddRoutes(handler, secrets)
 
 	if err := engine.Run(":8080"); err != nil {

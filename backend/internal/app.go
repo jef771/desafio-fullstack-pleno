@@ -1,5 +1,11 @@
 package internal
 
 type Secrets struct {
-	JWTSecret string
+	JWTSecret   string
+	Credentials Credentials
+}
+
+type Credentials struct {
+	Username string
+	Password string
 }

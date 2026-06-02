@@ -4,26 +4,72 @@ import (
 	"database/sql"
 	"errors"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt/v5"
+	"github.com/jef771/desafio-backend-pleno/internal"
 	"github.com/jef771/desafio-backend-pleno/internal/models"
 	"github.com/jef771/desafio-backend-pleno/internal/services"
 )
 
 type Handler struct {
-	Api services.ApiService
+	Api     services.ApiService
+	Secrets *internal.Secrets
 }
 
 func NewHandler(
 	api services.ApiService,
+	secrets *internal.Secrets,
 ) *Handler {
 	return &Handler{
-		Api: api}
+		Api:     api,
+		Secrets: secrets,
+	}
 }
 
 func (h *Handler) Ping(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message": "pong",
+	})
+}
+
+func (h *Handler) Login(c *gin.Context) {
+	var req struct {
+		Email    string `json:"email"`
+		Password string `json:"password"`
+	}
+
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "invalid body",
+		})
+		return
+	}
+
+	if req.Email != h.Secrets.Credentials.Username ||
+		req.Password != h.Secrets.Credentials.Password {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"error": "invalid credentials",
+		})
+		return
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"preferred_username": req.Email,
+		"exp":                time.Now().Add(24 * time.Hour).Unix(),
+	})
+
+	tokenString, err := token.SignedString([]byte(h.Secrets.JWTSecret))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "failed to sign token",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"token": tokenString,
 	})
 }
 
