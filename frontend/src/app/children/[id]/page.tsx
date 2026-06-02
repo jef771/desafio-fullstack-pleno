@@ -2,6 +2,7 @@ import Link from "next/link";
 import HealthCard from "@/components/HealthCard";
 import EducationCard from "@/components/EducationCard";
 import SocialCard from "@/components/SocialCard";
+import ReviewButton from "@/components/ReviewButton";
 import { cookies } from "next/headers";
 
 import { getChild } from "@/lib/api";
@@ -94,6 +95,23 @@ export default async function ChildPage({
           </p>
         )}
       </div>
+
+      <div className="mt-6 border p-4">
+  <h2 className="font-bold">
+    Revisão
+  </h2>
+
+  <p>
+    Status:{" "}
+    {child.revisado
+      ? "Revisado"
+      : "Pendente"}
+  </p>
+
+  {!child.revisado && (
+    <ReviewButton childId={child.id} />
+  )}
+</div>
     </main>
   );
 }

@@ -89,3 +89,24 @@ export async function getChild(
 
   return response.json();
 }
+
+export async function reviewChild(
+  token: string,
+  id: string
+) {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/children/${id}/review`,
+    {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to review child");
+  }
+
+  return response.json();
+}
