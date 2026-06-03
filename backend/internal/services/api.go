@@ -42,7 +42,7 @@ func (s *apiService) ListChildren(filter models.Filter) (models.ListChildrenResp
 	}
 
 	if filter.Size < 1 {
-		filter.Size = 20
+		filter.Size = 10
 	}
 
 	total, err := s.repo.Count(filter)
