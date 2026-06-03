@@ -2,6 +2,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { cookies } from "next/headers";
 import { getSummary } from "@/lib/api";
+import AlertsChart from "@/components/AlertsChart";
+import ReviewProgressChart from "@/components/ReviewProgressChart";
+import Header from "@/components/Header";
 
 export default async function DashboardPage() {
   const cookieStore = await cookies();
@@ -23,89 +26,7 @@ export default async function DashboardPage() {
 
   return (
     <main className="min-h-screen bg-slate-100">
-      <header className="bg-[var(--rio-blue)] text-white shadow">
-  <div className="max-w-7xl mx-auto px-8 py-6 flex items-center justify-between">
-
-    {/* Left side */}
-    <div className="flex items-center gap-6">
-      <Image
-        src="/images/Logo-Prefeitura-horizontal-branco.png"
-        alt="Prefeitura do Rio"
-        width={160}
-        height={160}
-      />
-
-      <div>
-        <h1 className="text-2xl font-bold">
-          Painel de Monitoramento Infantil
-        </h1>
-
-        <p className="text-blue-100">
-          Prefeitura do Rio de Janeiro
-        </p>
-      </div>
-    </div>
-
-    <div className="flex items-center gap-4">
-      <Link
-        href="/"
-        className="
-          flex items-center gap-3
-          rounded-xl
-          bg-white
-          px-5 py-3
-          text-slate-800
-          shadow-sm
-          border border-transparent
-          transition-all
-          hover:border-[#1bb5d9]
-          hover:text-[#1bb5d9]
-          hover:shadow-md
-        "
-      >
-      <Image
-        src="/images/consulta.png"
-        alt="Dashboard"
-        width={24}
-        height={24}
-      />
-
-      <span className="font-semibold">
-        Dashboard
-      </span>
-    </Link>
-
-    <Link
-      href="/children"
-      className="
-        flex items-center gap-3
-        rounded-xl
-        bg-white
-        px-5 py-3
-        text-slate-800
-        shadow-sm
-        border border-transparent
-        transition-all
-        hover:border-[#1bb5d9]
-          hover:text-[#1bb5d9]
-          hover:shadow-md
-        w-44
-        justify-center
-      "
-    >
-      <Image
-        src="/images/consulta.png"
-        alt="Consulta"
-        width={24}
-        height={24}
-      />
-
-      <span className="font-semibold">Ver Crianças</span>
-    </Link>
-    </div>
-
-  </div>
-</header>
+      <Header />
 
       <div className="max-w-7xl mx-auto p-8">
         
@@ -168,6 +89,17 @@ export default async function DashboardPage() {
               }
             )}
           </div>
+        </section>
+            
+        <section className="mt-10 grid gap-6 lg:grid-cols-2">
+          <AlertsChart
+            data={summary.alerts_by_domain}
+          />
+
+          <ReviewProgressChart
+            total={summary.total_of_children}
+            reviewed={summary.already_reviewed}
+          />
         </section>
       </div>
       

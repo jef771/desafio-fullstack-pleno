@@ -6,40 +6,56 @@ type Props = {
   } | null;
 };
 
-export default function EducationCard({
-  data,
-}: Props) {
-  if (!data) {
-    return (
-      <div className="border p-4 rounded">
-        <h2 className="font-bold mb-2">
-          Educação
-        </h2>
-
-        <p>Sem informações.</p>
-      </div>
-    );
-  }
-
+export default function EducationCard({ data }: Props) {
   return (
-    <div className="border p-4 rounded">
-      <h2 className="font-bold mb-2">
+    <div className="rounded-2xl bg-white p-6 shadow-sm border-l-4 border-blue-500">
+
+      <h2 className="text-lg font-semibold text-slate-800 mb-4">
         Educação
       </h2>
 
-      <p>
-        Escola:{" "}
-        {data.escola ?? "Não matriculado"}
-      </p>
+      {!data ? (
+        <p className="text-sm text-slate-500">
+          Sem informações.
+        </p>
+      ) : (
+        <div className="space-y-4 text-sm">
 
-      <p>
-        Frequência:{" "}
-        {data.frequencia_percent ?? "-"}%
-      </p>
+          {/* Escola */}
+          <div className="flex items-center justify-between">
+            <span className="text-slate-500">
+              Escola
+            </span>
 
-      <p>
-        Alertas: {data.alertas.length}
-      </p>
+            <span className="font-medium text-slate-900 text-right">
+              {data.escola ?? "Não matriculado"}
+            </span>
+          </div>
+
+          {/* Frequência */}
+          <div className="flex items-center justify-between">
+            <span className="text-slate-500">
+              Frequência
+            </span>
+
+            <span className="font-semibold text-slate-900">
+              {data.frequencia_percent ?? "-"}%
+            </span>
+          </div>
+
+          {/* Alertas */}
+          <div className="flex items-center justify-between">
+            <span className="text-slate-500">
+              Alertas
+            </span>
+
+            <span className="font-semibold text-slate-900">
+              {data.alertas.length}
+            </span>
+          </div>
+
+        </div>
+      )}
     </div>
   );
 }

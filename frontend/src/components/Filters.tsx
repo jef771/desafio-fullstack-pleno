@@ -13,17 +13,9 @@ export default function Filters() {
   function applyFilters() {
     const params = new URLSearchParams();
 
-    if (bairro) {
-      params.set("bairro", bairro);
-    }
-
-    if (hasAlerts) {
-      params.set("has_alerts", hasAlerts);
-    }
-
-    if (revisado) {
-      params.set("revisado", revisado);
-    }
+    if (bairro) params.set("bairro", bairro);
+    if (hasAlerts) params.set("has_alerts", hasAlerts);
+    if (revisado) params.set("revisado", revisado);
 
     params.set("page", "1");
 
@@ -31,40 +23,95 @@ export default function Filters() {
   }
 
   return (
-    <div className="flex gap-2 mb-6">
-      <input
-        className="border p-2"
-        placeholder="Bairro"
-        value={bairro}
-        onChange={(e) => setBairro(e.target.value)}
-      />
+    <div className="mb-6 rounded-2xl bg-white p-6 shadow-sm border border-slate-100">
+      
+      {/* Title */}
+      <h2 className="mb-4 text-lg font-semibold text-slate-800">
+        Filtros
+      </h2>
 
-      <select
-        className="border p-2"
-        value={hasAlerts}
-        onChange={(e) => setHasAlerts(e.target.value)}
-      >
-        <option value="">Alertas</option>
-        <option value="true">Com alertas</option>
-        <option value="false">Sem alertas</option>
-      </select>
+      {/* Grid */}
+      <div className="grid gap-4 md:grid-cols-4">
 
-      <select
-        className="border p-2"
-        value={revisado}
-        onChange={(e) => setRevisado(e.target.value)}
-      >
-        <option value="">Revisão</option>
-        <option value="true">Revisado</option>
-        <option value="false">Não revisado</option>
-      </select>
+        {/* Bairro */}
+        <input
+          value={bairro}
+          onChange={(e) => setBairro(e.target.value)}
+          placeholder="Bairro"
+          className="
+            w-full
+            rounded-xl
+            border border-slate-200
+            bg-white
+            px-4 py-3
+            text-sm text-slate-700
+            outline-none
+            transition
+            focus:border-[#1bb5d9]
+            focus:ring-2 focus:ring-[#1bb5d9]/20
+          "
+        />
 
-      <button
-        className="border px-4"
-        onClick={applyFilters}
-      >
-        Filtrar
-      </button>
+        {/* Alertas */}
+        <select
+          value={hasAlerts}
+          onChange={(e) => setHasAlerts(e.target.value)}
+          className="
+            w-full
+            rounded-xl
+            border border-slate-200
+            bg-white
+            px-4 py-3
+            text-sm text-slate-700
+            outline-none
+            transition
+            focus:border-[#1bb5d9]
+            focus:ring-2 focus:ring-[#1bb5d9]/20
+          "
+        >
+          <option value="">Situação dos Alertas</option>
+          <option value="true">Com alertas</option>
+          <option value="false">Sem alertas</option>
+        </select>
+
+        {/* Revisão */}
+        <select
+          value={revisado}
+          onChange={(e) => setRevisado(e.target.value)}
+          className="
+            w-full
+            rounded-xl
+            border border-slate-200
+            bg-white
+            px-4 py-3
+            text-sm text-slate-700
+            outline-none
+            transition
+            focus:border-[#1bb5d9]
+            focus:ring-2 focus:ring-[#1bb5d9]/20
+          "
+        >
+          <option value="">Status da Revisão</option>
+          <option value="true">Revisado</option>
+          <option value="false">Não revisado</option>
+        </select>
+
+        {/* Button */}
+        <button
+          onClick={applyFilters}
+          className="
+            rounded-xl
+            bg-[#1bb5d9]
+            px-4 py-3
+            text-sm font-semibold text-white
+            transition-all
+            hover:bg-[#169fbe]
+            active:scale-[0.98]
+          "
+        >
+          Aplicar filtros
+        </button>
+      </div>
     </div>
   );
 }

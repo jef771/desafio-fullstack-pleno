@@ -4,6 +4,8 @@ import { cookies } from "next/headers";
 import { getChildren } from "@/lib/api";
 import ChildrenFilters from "@/components/Filters";
 import Pagination from "@/components/Pagination";
+import Header from "@/components/Header";
+import ResultsToolbar from "@/components/ResultsToolbar";
 
 type Props = {
   searchParams: Promise<{
@@ -52,30 +54,18 @@ export default async function ChildrenPage({
   console.log(response);
 
   return (
-    <main className="p-8">
-      <div className="flex justify-between mb-6">
-        <h1 className="text-3xl font-bold">
-          Crianças
-        </h1>
+    <main className="min-h-screen bg-slate-100">
+      
+      <Header />
 
-        <Link href="/">
-          Voltar ao Dashboard
-        </Link>
-      </div>
-
+      <div className="max-w-7xl mx-auto p-8">
       <ChildrenFilters />
 
-      <div className="mb-6">
-        <div className="inline-flex items-center rounded-xl bg-white px-5 py-3 shadow-sm">
-          <span className="text-slate-500 mr-2">
-            Total encontrado:
-          </span>
-
-          <span className="text-xl font-bold">
-            {response.total}
-          </span>
-        </div>
-      </div>
+      <ResultsToolbar 
+        page={response.page}
+        size={response.size}
+        total={response.total}
+      />
 
       <section
         className="
@@ -178,6 +168,7 @@ export default async function ChildrenPage({
         size={response.size}
         total={response.total}
       />
+      </div>
     </main>
   );
 }

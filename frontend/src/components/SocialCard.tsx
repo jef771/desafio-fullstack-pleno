@@ -6,42 +6,64 @@ type Props = {
   } | null;
 };
 
-export default function SocialCard({
-  data,
-}: Props) {
-  if (!data) {
-    return (
-      <div className="border p-4 rounded">
-        <h2 className="font-bold mb-2">
-          Assistência Social
-        </h2>
-
-        <p>Sem informações.</p>
-      </div>
-    );
-  }
-
+export default function SocialCard({ data }: Props) {
   return (
-    <div className="border p-4 rounded">
-      <h2 className="font-bold mb-2">
+    <div className="rounded-2xl bg-white p-6 shadow-sm border-l-4 border-green-500">
+
+      <h2 className="text-lg font-semibold text-slate-800 mb-4">
         Assistência Social
       </h2>
 
-      <p>
-        CadÚnico:{" "}
-        {data.cad_unico ? "Sim" : "Não"}
-      </p>
+      {!data ? (
+        <p className="text-sm text-slate-500">
+          Sem informações.
+        </p>
+      ) : (
+        <div className="space-y-4 text-sm">
 
-      <p>
-        Benefício ativo:{" "}
-        {data.beneficio_ativo
-          ? "Sim"
-          : "Não"}
-      </p>
+          {/* CadÚnico */}
+          <div className="flex items-center justify-between">
+            <span className="text-slate-500">
+              CadÚnico
+            </span>
 
-      <p>
-        Alertas: {data.alertas.length}
-      </p>
+            <span className={`px-3 py-1 rounded-xl text-xs font-semibold ${
+              data.cad_unico
+                ? "bg-green-100 text-green-700"
+                : "bg-amber-100 text-amber-700"
+            }`}>
+              {data.cad_unico ? "Sim" : "Não"}
+            </span>
+          </div>
+
+          {/* Benefício */}
+          <div className="flex items-center justify-between">
+            <span className="text-slate-500">
+              Benefício ativo
+            </span>
+
+            <span className={`px-3 py-1 rounded-xl text-xs font-semibold ${
+              data.beneficio_ativo
+                ? "bg-green-100 text-green-700"
+                : "bg-amber-100 text-amber-700"
+            }`}>
+              {data.beneficio_ativo ? "Sim" : "Não"}
+            </span>
+          </div>
+
+          {/* Alertas */}
+          <div className="flex items-center justify-between">
+            <span className="text-slate-500">
+              Alertas
+            </span>
+
+            <span className="font-semibold text-slate-900">
+              {data.alertas.length}
+            </span>
+          </div>
+
+        </div>
+      )}
     </div>
   );
 }
