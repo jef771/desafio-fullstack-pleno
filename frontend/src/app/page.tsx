@@ -24,69 +24,91 @@ export default async function DashboardPage() {
   return (
     <main className="min-h-screen bg-slate-100">
       <header className="bg-[var(--rio-blue)] text-white shadow">
-        <div className="max-w-7xl mx-auto px-8 py-6 flex items-center gap-6">
-  <Image
-    src="/images/Logo-Prefeitura-horizontal-branco.png"
-    alt="Prefeitura do Rio"
-    width={160}
-    height={160}
-  />
+  <div className="max-w-7xl mx-auto px-8 py-6 flex items-center justify-between">
 
-  <div>
-    <h1 className="text-2xl font-bold">
-      Painel de Monitoramento Infantil
-    </h1>
+    {/* Left side */}
+    <div className="flex items-center gap-6">
+      <Image
+        src="/images/Logo-Prefeitura-horizontal-branco.png"
+        alt="Prefeitura do Rio"
+        width={160}
+        height={160}
+      />
 
-    <p className="mt-1 text-blue-100">
-      Prefeitura do Rio de Janeiro
-    </p>
+      <div>
+        <h1 className="text-2xl font-bold">
+          Painel de Monitoramento Infantil
+        </h1>
+
+        <p className="text-blue-100">
+          Prefeitura do Rio de Janeiro
+        </p>
+      </div>
+    </div>
+
+    <div className="flex items-center gap-4">
+      <Link
+        href="/"
+        className="
+          flex items-center gap-3
+          rounded-xl
+          bg-white
+          px-5 py-3
+          text-slate-800
+          shadow-sm
+          border border-transparent
+          transition-all
+          hover:border-[#1bb5d9]
+          hover:text-[#1bb5d9]
+          hover:shadow-md
+        "
+      >
+      <Image
+        src="/images/consulta.png"
+        alt="Dashboard"
+        width={24}
+        height={24}
+      />
+
+      <span className="font-semibold">
+        Dashboard
+      </span>
+    </Link>
+
+    <Link
+      href="/children"
+      className="
+        flex items-center gap-3
+        rounded-xl
+        bg-white
+        px-5 py-3
+        text-slate-800
+        shadow-sm
+        border border-transparent
+        transition-all
+        hover:border-[#1bb5d9]
+          hover:text-[#1bb5d9]
+          hover:shadow-md
+        w-44
+        justify-center
+      "
+    >
+      <Image
+        src="/images/consulta.png"
+        alt="Consulta"
+        width={24}
+        height={24}
+      />
+
+      <span className="font-semibold">Ver Crianças</span>
+    </Link>
+    </div>
+
   </div>
-</div>
-      </header>
+</header>
 
       <div className="max-w-7xl mx-auto p-8">
-        <Link
-              href="/children"
-              className="
-                group
-                flex
-                flex-col
-                mb-6
-                items-center
-                justify-center
-                text-center
-                w-56
-                p-6
-                rounded-2xl
-                bg-gray-100
-                border
-                border-transparent
-                shadow-sm
-                transition-all
-                hover:border-[#1bb5d9]
-                hover:shadow-md
-              "
-            >
-              <Image
-                src="/images/consulta.png"
-                alt="Consulta"
-                width={60}
-                height={60}
-                className="mx-auto"
-              />
-
-              <span
-                className="
-                  mt-3
-                  text-lg
-                  text-slate-800
-                  transition-all
-                  group-hover:font-bold
-                "
-              >
-                Ver Crianças
-              </span>
-          </Link>
+        
 
         <section className="grid gap-6 md:grid-cols-2">
           <div className="rounded-2xl bg-white p-8 shadow-sm">

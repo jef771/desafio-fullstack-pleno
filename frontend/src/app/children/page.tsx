@@ -65,59 +65,113 @@ export default async function ChildrenPage({
 
       <ChildrenFilters />
 
-      <div className="mb-4">
-        Total encontrado: {response.total}
+      <div className="mb-6">
+        <div className="inline-flex items-center rounded-xl bg-white px-5 py-3 shadow-sm">
+          <span className="text-slate-500 mr-2">
+            Total encontrado:
+          </span>
+
+          <span className="text-xl font-bold">
+            {response.total}
+          </span>
+        </div>
       </div>
 
-      <table className="w-full border">
-        <thead>
-          <tr>
-            <th className="border p-2">Nome</th>
-            <th className="border p-2">Bairro</th>
-            <th className="border p-2">
-              Responsável
-            </th>
-            <th className="border p-2">
-              Revisado
-            </th>
-            <th className="border p-2">
-              Ações
-            </th>
-          </tr>
-        </thead>
+      <section
+        className="
+          grid
+          gap-4
+          md:grid-cols-2
+          xl:grid-cols-3
+        "
+      >
+        {response.data.map((child) => (
+          <Link
+            key={child.id}
+            href={`/children/${child.id}`}
+            className="
+              block
+              rounded-2xl
+              bg-gray-100
+              p-5
+              shadow-sm
+              border
+              border-transparent
+              transition-all
+              hover:border-[#1bb5d9]
+              hover:shadow-md
+            "
+          >
+            <div className="flex justify-between items-start">
+              <div>
+                <h2 className="text-lg font-semibold text-slate-900">
+                  {child.nome}
+                </h2>
 
-        <tbody>
-          {response.data.map((child) => (
-            <tr key={child.id}>
-              <td className="border p-2">
-                {child.nome}
-              </td>
+                <p className="text-sm text-slate-500">
+                  Responsável: {child.responsavel}
+                </p>
+              </div>
 
-              <td className="border p-2">
-                {child.bairro}
-              </td>
-
-              <td className="border p-2">
-                {child.responsavel}
-              </td>
-
-              <td className="border p-2">
+              <span
+                className={
+                  child.revisado
+                    ? `
+                      rounded-full
+                      bg-green-100
+                      px-3
+                      py-1
+                      text-sm
+                      font-medium
+                      text-green-700
+                    `
+                    : `
+                      rounded-full
+                      bg-yellow-100
+                      px-3
+                      py-1
+                      text-sm
+                      font-medium
+                      text-yellow-700
+                    `
+                }
+              >
                 {child.revisado
-                  ? "Sim"
-                  : "Não"}
-              </td>
+                  ? "Revisado"
+                  : "Pendente"}
+              </span>
+            </div>
 
-              <td className="border p-2">
-                <Link
-                  href={`/children/${child.id}`}
-                >
-                  Ver detalhes
-                </Link>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+            <div className="mt-4 grid gap-2 sm:grid-cols-2">
+              <div>
+                <p className="text-xs uppercase text-slate-400">
+                  Bairro
+                </p>
+
+                <p className="font-medium">
+                  {child.bairro}
+                </p>
+              </div>
+
+              <div>
+                <p className="text-xs uppercase text-slate-400">
+                  Data de nascimento
+                </p>
+
+                <p className="font-medium">
+                  {new Date(
+                    child.data_nascimento
+                  ).toLocaleDateString("pt-BR")}
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-4 text-sm text-[#1bb5d9] font-medium">
+              Ver detalhes →
+            </div>
+          </Link>
+        ))}
+      </section>
 
       <Pagination
         page={response.page}
