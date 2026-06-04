@@ -12,22 +12,32 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./docker/postgres/init_test.sql:/docker-entrypoint-initdb.d/init_test.sql
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U admin -d dbp" ]
       interval: 5s
       timeout: 5s
       retries: 5
 
-  app:
-    build: .
+  backend:
+    build: 
+      context: ./backend
     depends_on:
       postgres:
         condition: service_healthy
     environment:
       DATABASE_URL: host=postgres port=5432 user=admin password=password dbname=dbp sslmode=disable
       DATABASE_TEST_URL: host=postgres port=5432 user=admin password=password dbname=dbp_test sslmode=disable
-      JWT_SECRET: jwt_super_secret
-      DEV: true
+      USERNAME: tecnico@prefeitura.rio
+      PASSWORD: painel@2024
     ports:
       - "8080:8080"
+
+  frontend:
+    build:
+      context: ./frontend
+    depends_on:
+      - backend
+    environment:
+      NEXT_PUBLIC_API_URL: http://backend:8080
+    ports:
+      - "3000:3000"

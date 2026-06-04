@@ -21,6 +21,7 @@ RUN apk --no-cache add \
 WORKDIR /app
 
 COPY --from=builder /app/bin/server .
+COPY --from=builder /app/internal/config/data ./internal/config/data
 
 EXPOSE 8080
 
