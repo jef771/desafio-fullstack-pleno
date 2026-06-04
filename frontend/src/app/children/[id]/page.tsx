@@ -4,8 +4,8 @@ import EducationCard from "@/components/EducationCard";
 import SocialCard from "@/components/SocialCard";
 import ReviewButton from "@/components/ReviewButton";
 import Link from "next/link";
-import { cookies } from "next/headers";
 import { getChild } from "@/lib/api";
+import { requireAuth } from "@/lib/auth";
 
 type Props = {
   params: Promise<{
@@ -18,8 +18,7 @@ export default async function ChildPage({
 }: Props) {
   const { id } = await params;
 
-  const token =
-    (await cookies()).get("token")?.value ?? "";
+  const token = await requireAuth();
 
   const child = await getChild(token, id);
 
@@ -29,7 +28,6 @@ export default async function ChildPage({
 
       <div className="max-w-7xl mx-auto p-8 space-y-6">
 
-        {/* Back navigation */}
         <Link
           href="/children"
           className="text-sm text-slate-600 hover:text-slate-900"
@@ -37,7 +35,6 @@ export default async function ChildPage({
           ← Voltar para lista
         </Link>
 
-        {/* Case header */}
         <div className="rounded-2xl bg-white p-8 shadow-sm">
           <div className="flex items-start justify-between gap-6">
 
@@ -97,7 +94,6 @@ export default async function ChildPage({
           </div>
         </div>
 
-        {/* Domain cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <HealthCard data={child.saude} />
           <EducationCard data={child.educacao} />

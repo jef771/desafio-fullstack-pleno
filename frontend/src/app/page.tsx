@@ -5,17 +5,13 @@ import { getSummary } from "@/lib/api";
 import AlertsChart from "@/components/AlertsChart";
 import ReviewProgressChart from "@/components/ReviewProgressChart";
 import Header from "@/components/Header";
+import { requireAuth } from "@/lib/auth";
 
 export default async function DashboardPage() {
   const cookieStore = await cookies();
 
-  const token =
-    cookieStore.get("token")?.value;
-
-  if (!token) {
-    throw new Error("Missing token");
-  }
-
+  const token = await requireAuth();
+  
   const summary = await getSummary(token);
 
   const colors: Record<string, string> = {

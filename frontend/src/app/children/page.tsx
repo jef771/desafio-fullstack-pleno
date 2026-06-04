@@ -6,6 +6,7 @@ import ChildrenFilters from "@/components/Filters";
 import Pagination from "@/components/Pagination";
 import Header from "@/components/Header";
 import ResultsToolbar from "@/components/ResultsToolbar";
+import { requireAuth } from "@/lib/auth";
 
 type Props = {
   searchParams: Promise<{
@@ -22,8 +23,7 @@ export default async function ChildrenPage({
 }: Props) {
   const params = await searchParams;
 
-  const token =
-    (await cookies()).get("token")?.value ?? "";
+  const token = await requireAuth();
 
   const query = new URLSearchParams();
 

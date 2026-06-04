@@ -42,7 +42,15 @@ export async function getSummary(
   );
 
   if (!response.ok) {
-    throw new Error("Failed to load summary");
+    const body = await response.text();
+
+    console.error("SUMMARY ERROR");
+    console.error("STATUS:", response.status);
+    console.error("BODY:", body);
+
+    throw new Error(
+      `Failed to load summary (${response.status})`
+    );
   }
 
   return response.json();
