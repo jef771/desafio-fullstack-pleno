@@ -9,6 +9,7 @@ export default function Filters() {
   const [bairro, setBairro] = useState("");
   const [hasAlerts, setHasAlerts] = useState("");
   const [revisado, setRevisado] = useState("");
+  const [size, setSize] = useState("10");
 
   function applyFilters() {
     const params = new URLSearchParams();
@@ -16,7 +17,7 @@ export default function Filters() {
     if (bairro) params.set("bairro", bairro);
     if (hasAlerts) params.set("has_alerts", hasAlerts);
     if (revisado) params.set("revisado", revisado);
-
+    if (size) params.set("size", size);
     params.set("page", "1");
 
     router.push(`/children?${params.toString()}`);
@@ -25,15 +26,12 @@ export default function Filters() {
   return (
     <div className="mb-6 rounded-2xl bg-white p-6 shadow-sm border border-slate-100">
       
-      {/* Title */}
       <h2 className="mb-4 text-lg font-semibold text-slate-800">
         Filtros
       </h2>
 
-      {/* Grid */}
       <div className="grid gap-4 md:grid-cols-4">
 
-        {/* Bairro */}
         <input
           value={bairro}
           onChange={(e) => setBairro(e.target.value)}
@@ -52,7 +50,6 @@ export default function Filters() {
           "
         />
 
-        {/* Alertas */}
         <select
           value={hasAlerts}
           onChange={(e) => setHasAlerts(e.target.value)}
@@ -74,7 +71,6 @@ export default function Filters() {
           <option value="false">Sem alertas</option>
         </select>
 
-        {/* Revisão */}
         <select
           value={revisado}
           onChange={(e) => setRevisado(e.target.value)}
@@ -96,7 +92,6 @@ export default function Filters() {
           <option value="false">Não revisado</option>
         </select>
 
-        {/* Button */}
         <button
           onClick={applyFilters}
           className="

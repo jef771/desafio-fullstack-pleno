@@ -13,6 +13,7 @@ type Props = {
     has_alerts?: string;
     revisado?: string;
     page?: string;
+    size?: string;
   }>;
 };
 
@@ -43,6 +44,13 @@ export default async function ChildrenPage({
     query.set(
       "revisado",
       params.revisado
+    );
+  }
+
+  if (params.size) {
+    query.set(
+      "size",
+       params.size
     );
   }
 
