@@ -34,7 +34,7 @@ type Filter struct {
 	Revisado  *bool   `form:"revisado"`
 
 	Page int `form:"page"`
-	Size int `form:"page_size"`
+	Size int `form:"size"`
 }
 
 type Summary struct {
