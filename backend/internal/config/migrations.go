@@ -5,6 +5,8 @@ import (
 	"database/sql"
 	"encoding/json"
 	"os"
+	"path/filepath"
+	"runtime"
 
 	"github.com/jef771/desafio-backend-pleno/internal/models"
 )
@@ -12,19 +14,19 @@ import (
 func RunMigrations(db *sql.DB) error {
 	_, err := db.Exec(`
 	CREATE TABLE IF NOT EXISTS children (
-    id TEXT PRIMARY KEY,
-    nome TEXT NOT NULL,
-    data_nascimento DATE NOT NULL,
-    bairro TEXT NOT NULL,
-    responsavel TEXT NOT NULL,
-
-    saude JSONB,
-    educacao JSONB,
-    assistencia_social JSONB,
-
-    revisado BOOLEAN NOT NULL DEFAULT FALSE,
-    revisado_por TEXT,
-    revisado_em TIMESTAMP
+		id TEXT PRIMARY KEY,
+		nome TEXT NOT NULL,
+		data_nascimento DATE NOT NULL,
+		bairro TEXT NOT NULL,
+		responsavel TEXT NOT NULL,
+	
+		saude JSONB,
+		educacao JSONB,
+		assistencia_social JSONB,
+	
+		revisado BOOLEAN NOT NULL DEFAULT FALSE,
+		revisado_por TEXT,
+		revisado_em TIMESTAMP
 	);`)
 
 	if err != nil {
@@ -33,11 +35,21 @@ func RunMigrations(db *sql.DB) error {
 
 	err = SeedChildren(context.Background(), db)
 
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
 func SeedChildren(ctx context.Context, db *sql.DB) error {
-	content, err := os.ReadFile("../data/seed.json")
+	_, filename, _, _ := runtime.Caller(0)
+
+	dir := filepath.Dir(filename)
+
+	path := filepath.Join(dir, "data", "seed.json")
+
+	content, err := os.ReadFile(path)
 	if err != nil {
 		return err
 	}
