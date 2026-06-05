@@ -41,6 +41,7 @@ export interface Child {
   revisado: boolean;
   revisado_por: string | null;
   revisado_em: string | null;
+  total_alertas: number;
 }
 
 export interface ListChildrenResponse {
