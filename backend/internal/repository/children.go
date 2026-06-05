@@ -38,7 +38,23 @@ func (r *childrenRepository) Get(ID string) (models.Child, error) {
     				assistencia_social,
     				revisado,
     				revisado_por,
-    				revisado_em
+    				revisado_em,
+    				(
+						jsonb_array_length(
+							COALESCE(saude->'alertas', '[]'::jsonb)
+						)
+						+
+						jsonb_array_length(
+							COALESCE(educacao->'alertas', '[]'::jsonb)
+						)
+						+
+						jsonb_array_length(
+							COALESCE(
+								assistencia_social->'alertas',
+								'[]'::jsonb
+							)
+						)
+					) AS total_alertas
 				FROM children
 				WHERE id = $1;
 	`
@@ -55,7 +71,8 @@ func (r *childrenRepository) Get(ID string) (models.Child, error) {
 		&child.AssistenciaSocial,
 		&child.Revisado,
 		&child.RevisadoPor,
-		&child.RevisadoEm)
+		&child.RevisadoEm,
+		&child.TotalAlertas)
 
 	if err != nil {
 		return models.Child{}, err
@@ -79,7 +96,23 @@ func (r *childrenRepository) List(filter models.Filter) ([]models.Child, error) 
     				assistencia_social,
     				revisado,
     				revisado_por,
-    				revisado_em
+    				revisado_em,
+					(
+						jsonb_array_length(
+							COALESCE(saude->'alertas', '[]'::jsonb)
+						)
+						+
+						jsonb_array_length(
+							COALESCE(educacao->'alertas', '[]'::jsonb)
+						)
+						+
+						jsonb_array_length(
+							COALESCE(
+								assistencia_social->'alertas',
+								'[]'::jsonb
+							)
+						)
+					) AS total_alertas
 				FROM children
 				WHERE 1 = 1
 	`
@@ -107,14 +140,23 @@ func (r *childrenRepository) List(filter models.Filter) ([]models.Child, error) 
 
 	if filter.HasAlerts != nil && !*filter.HasAlerts {
 		stmt += ` AND (
-    					jsonb_array_length(saude->'alertas') = 0
-    					AND jsonb_array_length(educacao->'alertas') = 0
-    					AND jsonb_array_length(assistencia_social->'alertas') = 0
+    					(saude = 'null'::jsonb OR jsonb_array_length(saude->'alertas') = 0)
+    					AND (educacao = 'null'::jsonb OR jsonb_array_length(educacao->'alertas') = 0)
+    					AND (assistencia_social = 'null'::jsonb OR jsonb_array_length(assistencia_social->'alertas') = 0
 		)`
 	}
 
+	if filter.OrderBy != nil && *filter.OrderBy != "" {
+		order := *filter.OrderBy
+		switch order {
+		case "total_alertas":
+			stmt += " ORDER BY total_alertas DESC "
+		case "nome":
+			stmt += " ORDER BY nome "
+		}
+	}
+
 	stmt += fmt.Sprintf(`
-				ORDER BY nome
 				LIMIT $%d
 				OFFSET $%d`,
 		len(args)+1,
@@ -147,7 +189,8 @@ func (r *childrenRepository) List(filter models.Filter) ([]models.Child, error) 
 			&n.AssistenciaSocial,
 			&n.Revisado,
 			&n.RevisadoPor,
-			&n.RevisadoEm)
+			&n.RevisadoEm,
+			&n.TotalAlertas)
 		if err != nil {
 			return nil, err
 		}

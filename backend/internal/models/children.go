@@ -16,9 +16,10 @@ type Child struct {
 	Educacao          json.RawMessage `json:"educacao"`
 	AssistenciaSocial json.RawMessage `json:"assistencia_social"`
 
-	Revisado    bool       `json:"revisado"`
-	RevisadoPor *string    `json:"revisado_por"`
-	RevisadoEm  *time.Time `json:"revisado_em"`
+	Revisado     bool       `json:"revisado"`
+	RevisadoPor  *string    `json:"revisado_por"`
+	RevisadoEm   *time.Time `json:"revisado_em"`
+	TotalAlertas int        `json:"total_alertas"`
 }
 
 type ListChildrenResponse struct {
@@ -32,6 +33,7 @@ type Filter struct {
 	Bairro    *string `form:"bairro"`
 	HasAlerts *bool   `form:"has_alerts"`
 	Revisado  *bool   `form:"revisado"`
+	OrderBy   *string `form:"order"`
 
 	Page int `form:"page"`
 	Size int `form:"size"`

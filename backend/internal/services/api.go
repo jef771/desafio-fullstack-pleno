@@ -45,13 +45,19 @@ func (s *apiService) ListChildren(filter models.Filter) (models.ListChildrenResp
 		filter.Size = 10
 	}
 
+	if filter.OrderBy == nil ||
+		(filter.OrderBy != nil && *filter.OrderBy == "") {
+		defaultOrder := "nome"
+		filter.OrderBy = &defaultOrder
+	}
+
 	total, err := s.repo.Count(filter)
 
 	if err != nil {
 		return models.ListChildrenResponse{}, err
 	}
 
-	children, err := s.repo.List(filter)
+	list, err := s.repo.List(filter)
 
 	if err != nil {
 		return models.ListChildrenResponse{}, err
@@ -64,7 +70,7 @@ func (s *apiService) ListChildren(filter models.Filter) (models.ListChildrenResp
 		Total: total,
 	}
 
-	for _, child := range children {
+	for _, child := range list {
 		response.Data = append(response.Data, models.Child{
 			ID:                child.ID,
 			Nome:              child.Nome,
@@ -77,6 +83,7 @@ func (s *apiService) ListChildren(filter models.Filter) (models.ListChildrenResp
 			Revisado:          child.Revisado,
 			RevisadoPor:       child.RevisadoPor,
 			RevisadoEm:        child.RevisadoEm,
+			TotalAlertas:      child.TotalAlertas,
 		})
 	}
 

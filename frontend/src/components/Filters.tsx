@@ -3,13 +3,32 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export default function Filters() {
+type Props = {
+  bairro: string;
+  hasAlerts: string;
+  revisado: string;
+  order: string;
+};
+
+export default function Filters({
+  bairro: initialBairro,
+  hasAlerts: initialHasAlerts,
+  revisado: initialRevisado,
+  order: initialOrder,
+}: Props) {
   const router = useRouter();
 
-  const [bairro, setBairro] = useState("");
-  const [hasAlerts, setHasAlerts] = useState("");
-  const [revisado, setRevisado] = useState("");
-  const [order, setOrder] = useState("");
+  const [bairro, setBairro] =
+  useState(initialBairro);
+
+  const [hasAlerts, setHasAlerts] =
+    useState(initialHasAlerts);
+
+  const [revisado, setRevisado] =
+    useState(initialRevisado);
+
+  const [order, setOrder] =
+    useState(initialOrder);
 
   function clearFilters() {
     setBairro("");

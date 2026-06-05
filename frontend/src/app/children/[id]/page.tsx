@@ -11,16 +11,45 @@ type Props = {
   params: Promise<{
     id: string;
   }>;
+
+  searchParams: Promise<{
+    bairro?: string;
+    has_alerts?: string;
+    revisado?: string;
+    order?: string;
+    size?: string;
+    page?: string;
+  }>;
 };
 
 export default async function ChildPage({
   params,
+  searchParams
 }: Props) {
   const { id } = await params;
 
   const token = await requireAuth();
 
   const child = await getChild(token, id);
+
+  const filters = await searchParams;
+
+  const backParams = new URLSearchParams();
+
+  Object.entries(filters).forEach(
+    ([key, value]) => {
+      if (value) {
+        backParams.set(key, value);
+      }
+    }
+  );
+
+  console.log("BACK PARAMS:", backParams.toString());
+
+  const backUrl =
+    backParams.toString().length > 0
+      ? `/children?${backParams.toString()}`
+      : "/children";
 
   return (
     <main className="min-h-screen bg-slate-100">
@@ -29,8 +58,27 @@ export default async function ChildPage({
       <div className="max-w-7xl mx-auto p-8 space-y-6">
 
         <Link
-          href="/children"
-          className="text-sm text-slate-600 hover:text-slate-900"
+          href={backUrl}
+          className="
+            inline-flex
+            items-center
+            gap-2
+            rounded-xl
+            border
+            border-slate-200
+            bg-white
+            px-5
+            py-3
+            text-sm
+            font-semibold
+            text-slate-700
+            shadow-sm
+            transition-all
+            hover:border-[#1bb5d9]
+            hover:text-[#1bb5d9]
+            hover:shadow-md
+            active:scale-[0.98]
+          "
         >
           ← Voltar para lista
         </Link>

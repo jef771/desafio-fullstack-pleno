@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { cookies } from "next/headers";
 
 import { getChildren } from "@/lib/api";
 import ChildrenFilters from "@/components/Filters";
@@ -64,15 +63,18 @@ export default async function ChildrenPage({
     query
   );
 
-  console.log(response);
-
   return (
     <main className="min-h-screen bg-slate-100">
       
       <Header />
 
       <div className="max-w-7xl mx-auto p-8">
-      <ChildrenFilters />
+      <ChildrenFilters
+        bairro={params.bairro ?? ""}
+        hasAlerts={params.has_alerts ?? ""}
+        revisado={params.revisado ?? ""}
+        order={params.order ?? ""}
+      />
 
       <ResultsToolbar 
         page={response.page}
@@ -91,7 +93,7 @@ export default async function ChildrenPage({
   {response.data.map((child) => (
     <Link
       key={child.id}
-      href={`/children/${child.id}`}
+      href={`/children/${child.id}?${query.toString()}`}
       className="
         block
         rounded-2xl
