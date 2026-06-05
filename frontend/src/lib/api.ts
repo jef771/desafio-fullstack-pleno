@@ -71,7 +71,10 @@ export async function getChildren(
   );
 
   if (!response.ok) {
-    throw new Error("Failed to load children");
+    const text = await response.text().catch(() => "");
+    throw new Error(
+      `Failed to load children (${response.status}): ${text}`
+    );
   }
 
   return response.json();

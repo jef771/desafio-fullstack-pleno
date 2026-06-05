@@ -1,10 +1,10 @@
 import Link from "next/link";
 
 import { getChildren } from "@/lib/api";
-import ChildrenFilters from "@/components/Filters";
-import Pagination from "@/components/Pagination";
+import ChildrenFilters from "@/components/children/Filters";
+import Pagination from "@/components/children/Pagination";
 import Header from "@/components/Header";
-import ResultsToolbar from "@/components/ResultsToolbar";
+import ResultsToolbar from "@/components/children/ResultsToolbar";
 import { requireAuth } from "@/lib/auth";
 
 type Props = {

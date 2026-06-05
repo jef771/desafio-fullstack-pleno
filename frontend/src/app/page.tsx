@@ -2,8 +2,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { cookies } from "next/headers";
 import { getSummary } from "@/lib/api";
-import AlertsChart from "@/components/AlertsChart";
-import ReviewProgressChart from "@/components/ReviewProgressChart";
+import AlertsChart from "@/components/dashboard/AlertsChart";
+import ReviewProgressChart from "@/components/dashboard/ReviewProgressChart";
 import Header from "@/components/Header";
 import { requireAuth } from "@/lib/auth";
 
@@ -27,63 +27,88 @@ export default async function DashboardPage() {
       <div className="max-w-7xl mx-auto p-8">
         
 
-        <section className="grid gap-6 md:grid-cols-2">
-          <div className="rounded-2xl bg-white p-8 shadow-sm">
+        <div className="mb-8">
+          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">
+            Dashboard de Monitoramento
+          </h1>
 
-            <h2 className="text-lg font-semibold text-slate-700">
+          <p className="mt-2 text-slate-600 text-sm sm:text-base">
+            Visão geral dos registros, revisões e alertas do sistema municipal.
+          </p>
+        </div>
+
+        <section className="grid gap-6 md:grid-cols-2 lg:grid-cols-2">
+
+          <div className="relative overflow-hidden rounded-2xl bg-white p-6 shadow-sm border-l-4 border-slate-400">
+            <p className="text-sm text-slate-500">
               Total de Crianças
-            </h2>
+            </p>
 
-            <p className="mt-4 text-6xl font-bold text-slate-900">
+            <p className="mt-3 text-4xl sm:text-5xl font-bold text-slate-900">
               {summary.total_of_children}
             </p>
           </div>
 
-          <div className="rounded-2xl bg-white p-8 shadow-sm">
-
-            <h2 className="text-lg font-semibold text-slate-700">
+          <div className="relative overflow-hidden rounded-2xl bg-white p-6 shadow-sm border-l-4 border-green-500">
+            <p className="text-sm text-slate-500">
               Casos Revisados
-            </h2>
+            </p>
 
-            <p className="mt-4 text-6xl font-bold text-green-600">
+            <p className="mt-3 text-4xl sm:text-5xl font-bold text-green-600">
               {summary.already_reviewed}
             </p>
+
+            <div className="absolute right-4 top-4 text-green-100 text-4xl">
+              ✓
+            </div>
           </div>
-      </section>
+        </section>
 
-        <section className="mt-10">
+      <section className="mt-10">
+          <h2 className="text-lg font-semibold text-slate-800 mb-4">
+            Alertas por área
+          </h2>
+
           <div className="grid gap-6 md:grid-cols-3">
-            {summary.alerts_by_domain.map(
-              (domain) => {
-                const title =
-                  domain.domain_name === "saude"
-                    ? "Saúde"
-                    : domain.domain_name ===
-                        "educacao"
-                      ? "Educação"
-                      : "Assistência Social";
+            {summary.alerts_by_domain.map((domain) => {
+              const configMap = {
+                saude: {
+                  title: "Saúde",
+                  border: "border-red-500",
+                },
+                educacao: {
+                  title: "Educação",
+                  border: "border-blue-500",
+                },
+                assistencia_social: {
+                  title: "Assistência Social",
+                  border: "border-emerald-500",
+                },
+              } as const;
 
-                return (
-                  <div
-                    key={domain.domain_name}
-                    className="rounded-2xl bg-white p-8 shadow-sm hover:shadow-md transition"
-                  >
+              const config =
+                configMap[domain.domain_name as keyof typeof configMap];
 
-                    <h3 className="text-xl font-semibold text-slate-800">
-                      {title}
-                    </h3>
+              return (
+                <div
+                  key={domain.domain_name}
+                  className={`relative overflow-hidden rounded-2xl bg-white p-6 shadow-sm border-l-4 ${config.border}`}
+                >
+                  <p className="text-sm text-slate-500">
+                    {config.title}
+                  </p>
 
-                    <p className="mt-4 text-5xl font-bold text-slate-900">
-                      {domain.total}
-                    </p>
+                  <p className="mt-3 text-4xl font-bold text-slate-900">
+                    {domain.total}
+                  </p>
 
-                    <p className="mt-2 text-sm text-slate-500">
-                      alertas registrados
-                    </p>
-                  </div>
-                );
-              }
-            )}
+                  <p className="mt-1 text-sm text-slate-500">
+                    alertas registrados
+                  </p>
+
+                </div>
+              );
+            })}
           </div>
         </section>
             

@@ -142,7 +142,7 @@ func (r *childrenRepository) List(filter models.Filter) ([]models.Child, error) 
 		stmt += ` AND (
     					(saude = 'null'::jsonb OR jsonb_array_length(saude->'alertas') = 0)
     					AND (educacao = 'null'::jsonb OR jsonb_array_length(educacao->'alertas') = 0)
-    					AND (assistencia_social = 'null'::jsonb OR jsonb_array_length(assistencia_social->'alertas') = 0
+    					AND (assistencia_social = 'null'::jsonb OR jsonb_array_length(assistencia_social->'alertas') = 0)
 		)`
 	}
 

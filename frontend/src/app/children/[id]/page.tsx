@@ -1,8 +1,8 @@
 import Header from "@/components/Header";
-import HealthCard from "@/components/HealthCard";
-import EducationCard from "@/components/EducationCard";
-import SocialCard from "@/components/SocialCard";
-import ReviewButton from "@/components/ReviewButton";
+import HealthCard from "@/components/children/HealthCard";
+import EducationCard from "@/components/children/EducationCard";
+import SocialCard from "@/components/children/SocialCard";
+import ReviewButton from "@/components/children/ReviewButton";
 import Link from "next/link";
 import { getChild } from "@/lib/api";
 import { requireAuth } from "@/lib/auth";

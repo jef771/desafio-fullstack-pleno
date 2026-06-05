@@ -4,71 +4,72 @@ import Image from "next/image";
 export default function Header() {
   return (
     <header className="bg-[var(--rio-blue)] text-white shadow">
-      <div className="max-w-7xl mx-auto px-8 py-6 flex items-center justify-between">
-        <div className="flex items-center gap-6">
-          <Image
-            src="/images/Logo-Prefeitura-horizontal-branco.png"
-            alt="Prefeitura do Rio"
-            width={160}
-            height={160}
-          />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+          
+          <div className="flex items-center gap-4 sm:gap-6 min-w-0">
+            <Image
+              src="/images/Logo-Prefeitura-horizontal-branco.png"
+              alt="Prefeitura do Rio"
+              width={140}
+              height={140}
+              className="w-auto h-10 sm:h-12"
+            />
 
-          <div>
-            <h1 className="text-2xl font-bold">
-              Painel de Monitoramento Infantil
-            </h1>
+            <div className="min-w-0">
+              <h1 className="text-lg sm:text-xl lg:text-2xl font-bold truncate">
+                Painel de Monitoramento Infantil
+              </h1>
 
-            <p className="text-blue-100">
-              Prefeitura do Rio de Janeiro
-            </p>
+              <p className="text-blue-100 text-xs sm:text-sm truncate">
+                Prefeitura do Rio de Janeiro
+              </p>
+            </div>
           </div>
-        </div>
 
-        <div className="flex items-center gap-4">
-          <Link
-            href="/"
-            className="
-              flex items-center gap-3
-              rounded-xl
-              bg-white
-              px-5 py-3
-              text-slate-800
-              shadow-sm
-              border border-transparent
-              transition-all
-              hover:border-[#1bb5d9]
-              hover:text-[#1bb5d9]
-              hover:shadow-md
-            "
-          >
-
-            <span className="font-semibold">
-              Dashboard
-            </span>
-          </Link>
-
-          <Link
-            href="/children"
-            className="
-              flex items-center gap-3
-              rounded-xl
-              bg-white
-              px-5 py-3
-              text-slate-800
-              shadow-sm
-              border border-transparent
-              transition-all
-              hover:border-[#1bb5d9]
-              hover:text-[#1bb5d9]
-              hover:shadow-md
-            "
-          >
+          <nav className="flex flex-wrap lg:flex-nowrap gap-2 sm:gap-3">
             
+            <Link
+              href="/"
+              className="
+                whitespace-nowrap
+                flex items-center justify-center
+                rounded-lg sm:rounded-xl
+                bg-white
+                px-3 sm:px-4 lg:px-5
+                py-2 sm:py-3
+                text-slate-800
+                text-sm sm:text-base
+                shadow-sm
+                transition-all
+                hover:text-[#1bb5d9]
+                hover:shadow-md
+              "
+            >
+              Dashboard
+            </Link>
 
-            <span className="font-semibold">
+            <Link
+              href="/children"
+              className="
+                whitespace-nowrap
+                flex items-center justify-center
+                rounded-lg sm:rounded-xl
+                bg-white
+                px-3 sm:px-4 lg:px-5
+                py-2 sm:py-3
+                text-slate-800
+                text-sm sm:text-base
+                shadow-sm
+                transition-all
+                hover:text-[#1bb5d9]
+                hover:shadow-md
+              "
+            >
               Crianças
-            </span>
-          </Link>
+            </Link>
+          </nav>
         </div>
       </div>
     </header>
