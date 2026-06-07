@@ -49,11 +49,11 @@ export default function AlertsChart({
         Alertas por Área
       </h2>
 
-      <div className="h-80">
-        <ResponsiveContainer
-          width="100%"
-          height="100%"
-        >
+      <div className="h-80 min-w-0">
+      <ResponsiveContainer
+        width="100%"
+        height="100%"
+      >
           <BarChart data={chartData}>
             <XAxis dataKey="name" />
 

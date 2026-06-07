@@ -66,6 +66,10 @@ export default function LoginForm() {
             width={260}
             height={80}
             priority
+            style={{
+              width: "auto",
+              height: "auto",
+            }}
           />
 
           <h1 className="mt-6 text-center text-2xl font-semibold text-slate-800">
@@ -80,11 +84,16 @@ export default function LoginForm() {
             className="space-y-5"
           >
             <div>
-              <label className="mb-2 block text-sm font-medium text-slate-700">
+              
+              <label
+                htmlFor="email"
+                className="mb-2 block text-sm font-medium text-slate-700"
+              >
                 E-mail
               </label>
 
               <input
+                id="email"
                 type="email"
                 value={email}
                 onChange={(e) =>
@@ -95,11 +104,15 @@ export default function LoginForm() {
             </div>
 
             <div>
-              <label className="mb-2 block text-sm font-medium text-slate-700">
+              <label
+                htmlFor="password"
+                className="mb-2 block text-sm font-medium text-slate-700"
+              >
                 Senha
               </label>
 
               <input
+                id="password"
                 type="password"
                 value={password}
                 onChange={(e) =>
@@ -112,7 +125,11 @@ export default function LoginForm() {
             </div>
 
             {error && (
-              <div className="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+              <div
+                role="alert"
+                aria-live="assertive"
+                className="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700"
+              >
                 {error}
               </div>
             )}

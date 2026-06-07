@@ -68,6 +68,7 @@ export default function Filters({
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <input
+          aria-label="Filtrar por bairro"
           value={bairro}
           onChange={(e) =>
             setBairro(e.target.value)
@@ -89,6 +90,7 @@ export default function Filters({
         />
 
         <select
+          aria-label="Filtrar por situação dos alertas"
           value={hasAlerts}
           onChange={(e) =>
             setHasAlerts(e.target.value)
@@ -121,6 +123,7 @@ export default function Filters({
         </select>
 
         <select
+          aria-label="Filtrar por status da revisão"
           value={revisado}
           onChange={(e) =>
             setRevisado(e.target.value)
@@ -153,6 +156,7 @@ export default function Filters({
         </select>
 
         <select
+          aria-label="Filtrar por ordenação"
           value={order}
           onChange={(e) =>
             setOrder(e.target.value)
@@ -187,6 +191,7 @@ export default function Filters({
 
       <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-end">
         <button
+          aria-label="Limpar filtros"
           type="button"
           onClick={clearFilters}
           className="
@@ -205,6 +210,7 @@ export default function Filters({
         </button>
 
         <button
+          aria-label="Aplicar filtros"
           type="button"
           onClick={applyFilters}
           className="

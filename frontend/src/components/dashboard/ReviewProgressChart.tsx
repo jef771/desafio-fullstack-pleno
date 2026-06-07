@@ -34,7 +34,7 @@ export default function ReviewProgressChart({
         Progresso das Revisões
       </h2>
 
-      <div className="h-80">
+      <div className="h-80 min-w-0">
         <ResponsiveContainer
           width="100%"
           height="100%"
