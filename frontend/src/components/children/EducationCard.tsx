@@ -21,7 +21,6 @@ export default function EducationCard({ data }: Props) {
       ) : (
         <div className="space-y-4 text-sm">
 
-          {/* Escola */}
           <div className="flex items-center justify-between">
             <span className="text-slate-500">
               Escola
@@ -32,7 +31,6 @@ export default function EducationCard({ data }: Props) {
             </span>
           </div>
 
-          {/* Frequência */}
           <div className="flex items-center justify-between">
             <span className="text-slate-500">
               Frequência
@@ -43,7 +41,6 @@ export default function EducationCard({ data }: Props) {
             </span>
           </div>
 
-          {/* Alertas */}
           <div className="flex items-center justify-between">
             <span className="text-slate-500">
               Alertas

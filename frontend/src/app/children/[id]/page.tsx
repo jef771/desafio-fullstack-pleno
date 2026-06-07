@@ -52,13 +52,17 @@ export default async function ChildPage({
       : "/children";
 
   return (
-    <main className="min-h-screen bg-slate-100">
+    <main
+      className="min-h-screen bg-slate-100"
+      aria-label={`Detalhes da criança ${child.nome}`}
+    >
       <Header />
 
       <div className="max-w-7xl mx-auto p-8 space-y-6">
 
         <Link
           href={backUrl}
+          aria-label="Voltar para a lista de crianças"
           className="
             inline-flex
             items-center
@@ -83,11 +87,17 @@ export default async function ChildPage({
           ← Voltar para lista
         </Link>
 
-        <div className="rounded-2xl bg-white p-8 shadow-sm">
+        <section
+          aria-labelledby="child-name"
+          className="rounded-2xl bg-white p-8 shadow-sm"
+        >
           <div className="flex items-start justify-between gap-6">
 
             <div>
-              <h1 className="text-2xl font-bold text-slate-900">
+              <h1
+                id="child-name"
+                className="text-2xl font-bold text-slate-900"
+              >
                 {child.nome}
               </h1>
 
@@ -97,6 +107,11 @@ export default async function ChildPage({
             </div>
 
             <div
+              aria-label={
+                child.revisado
+                  ? "Caso revisado"
+                  : "Caso pendente de revisão"
+              }
               className={`px-4 py-2 rounded-xl text-sm font-semibold ${
                 child.revisado
                   ? "bg-green-100 text-green-700"
@@ -106,11 +121,16 @@ export default async function ChildPage({
               {child.revisado ? "Revisado" : "Pendente"}
             </div>
           </div>
-        </div>
+        </section>
 
-        {/* Dados gerais */}
-        <div className="rounded-2xl bg-white p-8 shadow-sm">
-          <h2 className="text-lg font-semibold text-slate-800 mb-4">
+        <section
+          aria-labelledby="dados-gerais"
+          className="rounded-2xl bg-white p-8 shadow-sm"
+        >
+          <h2
+            id="dados-gerais"
+            className="text-lg font-semibold text-slate-800 mb-4"
+          >
             Dados Gerais
           </h2>
 
@@ -140,25 +160,42 @@ export default async function ChildPage({
               </p>
             </div>
           </div>
-        </div>
+        </section>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <section
+          aria-labelledby="dominios-monitoramento"
+          className="grid grid-cols-1 md:grid-cols-3 gap-6"
+        >
+          <h2
+            id="dominios-monitoramento"
+            className="sr-only"
+          >
+            Informações de saúde, educação e assistência social
+          </h2>
+
           <HealthCard data={child.saude} />
           <EducationCard data={child.educacao} />
           <SocialCard data={child.assistencia_social} />
-        </div>
+        </section>
 
-        {/* Review section */}
-        <div className="rounded-2xl bg-white p-8 shadow-sm">
-          <h2 className="text-lg font-semibold text-slate-800 mb-4">
+        <section
+          aria-labelledby="revisao-caso"
+          className="rounded-2xl bg-white p-8 shadow-sm"
+        >
+          <h2
+            id="revisao-caso"
+            className="text-lg font-semibold text-slate-800 mb-4"
+          >
             Revisão do Caso
           </h2>
 
-          <div className="space-y-2 text-sm text-slate-700">
+          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <p>
               Status:{" "}
               <span className="font-medium">
-                {child.revisado ? "Revisado" : "Pendente"}
+                {child.revisado
+                  ? "Revisado"
+                  : "Pendente"}
               </span>
             </p>
 
@@ -175,20 +212,25 @@ export default async function ChildPage({
               <p>
                 Em:{" "}
                 <span className="font-medium">
-                  {new Date(child.revisado_em).toLocaleString(
-                    "pt-BR"
-                  )}
+                  {new Date(
+                    child.revisado_em
+                  ).toLocaleString("pt-BR")}
                 </span>
               </p>
             )}
-          </div>
 
-          {!child.revisado && (
-            <div className="mt-6">
+            {!child.revisado && (
+            <div
+              className="mt-6"
+              aria-label="Ações de revisão"
+            >
               <ReviewButton childId={child.id} />
             </div>
           )}
-        </div>
+          </div>
+
+        
+        </section>
       </div>
     </main>
   );

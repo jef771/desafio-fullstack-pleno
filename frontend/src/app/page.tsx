@@ -1,5 +1,3 @@
-import Link from "next/link";
-import Image from "next/image";
 import { cookies } from "next/headers";
 import { getSummary } from "@/lib/api";
 import AlertsChart from "@/components/dashboard/AlertsChart";
@@ -31,7 +29,6 @@ export default async function DashboardPage() {
           <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">
             Dashboard de Monitoramento
           </h1>
-
           <p className="mt-2 text-slate-600 text-sm sm:text-base">
             Visão geral dos registros, revisões e alertas do sistema municipal.
           </p>
@@ -39,7 +36,9 @@ export default async function DashboardPage() {
 
         <section className="grid gap-6 md:grid-cols-2 lg:grid-cols-2">
 
-          <div className="relative overflow-hidden rounded-2xl bg-white p-6 shadow-sm border-l-4 border-slate-400">
+          <article 
+              aria-labelledby="total-children-title"
+              className="relative overflow-hidden rounded-2xl bg-white p-6 shadow-sm border-l-4 border-slate-400">
             <p className="text-sm text-slate-500">
               Total de Crianças
             </p>
@@ -47,9 +46,11 @@ export default async function DashboardPage() {
             <p className="mt-3 text-4xl sm:text-5xl font-bold text-slate-900">
               {summary.total_of_children}
             </p>
-          </div>
+          </article>
 
-          <div className="relative overflow-hidden rounded-2xl bg-white p-6 shadow-sm border-l-4 border-green-500">
+          <article 
+              aria-labelledby="already-reviewed-title"
+              className="relative overflow-hidden rounded-2xl bg-white p-6 shadow-sm border-l-4 border-green-500">
             <p className="text-sm text-slate-500">
               Casos Revisados
             </p>
@@ -58,13 +59,18 @@ export default async function DashboardPage() {
               {summary.already_reviewed}
             </p>
 
-            <div className="absolute right-4 top-4 text-green-100 text-4xl">
+            <div 
+              aria-hidden="true" 
+              className="absolute right-4 top-4 text-green-100 text-4xl">
               ✓
             </div>
-          </div>
+          </article>
         </section>
 
-      <section className="mt-10">
+      <section 
+        aria-labelledby="alerts-title" 
+        className="mt-10">
+          
           <h2 className="text-lg font-semibold text-slate-800 mb-4">
             Alertas por área
           </h2>
@@ -110,17 +116,43 @@ export default async function DashboardPage() {
               );
             })}
           </div>
+        
         </section>
             
-        <section className="mt-10 grid gap-6 lg:grid-cols-2">
-          <AlertsChart
+        <section 
+          aria-labelledby="charts-title" 
+          className="mt-10 grid gap-6 lg:grid-cols-2">
+          <div
+            role="img"
+            aria-label={`
+              Distribuição de alertas por área.
+              Saúde: ${summary.alerts_by_domain.find(d => d.domain_name === 'saude')?.total}.
+              Educação: ${summary.alerts_by_domain.find(d => d.domain_name === 'educacao')?.total}.
+              Assistência Social: ${summary.alerts_by_domain.find(d => d.domain_name === 'assistencia_social')?.total}.
+            `}
+          >
+            <AlertsChart
             data={summary.alerts_by_domain}
           />
 
-          <ReviewProgressChart
-            total={summary.total_of_children}
-            reviewed={summary.already_reviewed}
-          />
+          </div>
+          
+          <div
+            role="img"
+            aria-label={`
+              Progresso das revisões.
+              ${summary.already_reviewed}
+              de
+              ${summary.total_of_children}
+              casos revisados.
+            `}
+          >
+            <ReviewProgressChart
+                      total={summary.total_of_children}
+                      reviewed={summary.already_reviewed}
+                    />
+          </div>
+          
         </section>
       </div>
       
