@@ -15,6 +15,7 @@ type Props = {
     order?: string;
     page?: string;
     size?: string;
+    direction?: string;
   }>;
 };
 
@@ -56,6 +57,13 @@ export default async function ChildrenPage({
 
   if (params.order) {
     query.set("order", params.order);
+  }
+
+  if (params.direction) {
+    query.set(
+      "direction",
+      params.direction
+    );
   }
 
   const response = await getChildren(

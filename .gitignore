@@ -17,6 +17,7 @@ node_modules/
 out/
 build/
 coverage/
+test-results/
 
 # =========================
 # Environment Variables
