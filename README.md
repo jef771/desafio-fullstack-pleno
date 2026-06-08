@@ -13,7 +13,7 @@ docker compose up
 ```
 
 O app vai rodar na porta 3000 e para logar são as credenciais previamente acordadas:
-```
+```text
 email: `tecnico@prefeitura.rio`
 senha: `painel@2024`
 ```
