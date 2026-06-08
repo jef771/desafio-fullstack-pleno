@@ -72,6 +72,9 @@ Utilizei biblioteca padrão do JWT em Golang (golang-jwt), o token é salvo em u
 
 As credenciais estão no docker-compose.yml, claro que em um ambiente prod elas deveriam estar em um AWS Secrets, porém a vantagem é que em um ambiente de dev não será necessário quebrar a cabeça para preparar o ambiente local, é só digitar docker compose up!
 
+### Design
+Já que na descrição do desafio foi falado que o técnico usaria o app em campo decidi fazer um design com bastante espaçamento e com botões para melhorar a experiência em telas pequenas (celulares e tablets), também optei por escolher cores para cada tipo de alerta, Sáude, Eduação e Assistência Social, o trade-off é que o técnico reconheceria a categoria rapidamente porém para cada nova categoria teriamos que entrar em acordo com uma cor.
+
 ## O que faria com mais tempo
 - Modelagem: como mencionei mais acima melhoria a modelagem da tabela children, faria uma modelagem mais genérica pronta para receber mais tipos e alertas
 
