@@ -68,7 +68,8 @@ Implementei testes unitários no backend e E2E no frontend com playwright.
 O interessante é que os testes de repositório no backend usam um banco de dados teste, portanto os testes realmente comprovam que as queries estão funcionando, perdi algum tempo para configurar isso no docker porém acabei ganhando tempo quando fazia alguma mudança na query, era só rodar os testes e checar o que deu erro.
 
 ### Segurança
-Utilizei biblioteca padrão do JWT em golang, o TOKEN é salvo em um cookie e toda vez que fazemos uma requisição o BFF pega esse token do cookie, ficou simples e fácil de trabalhar porém em um ambiente de prod acredito que guardaria em um redis pela maior segurança
+Utilizei biblioteca padrão do JWT em Golang (golang-jwt), o token é salvo em um cookie e toda vez que fazemos uma requisição o BFF pega esse token do cookie, ficou simples e fácil de trabalhar porém em um ambiente de prod guardaria em um redis pela maior segurança.
+
 As credenciais estão no docker-compose.yml, claro que em um ambiente prod elas deveriam estar em um AWS Secrets, porém a vantagem é que em um ambiente de dev não será necessário quebrar a cabeça para preparar o ambiente local, é só digitar docker compose up!
 
 ## O que faria com mais tempo
