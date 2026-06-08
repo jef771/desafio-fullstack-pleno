@@ -118,8 +118,8 @@ func (r *childrenRepository) List(filter models.Filter) ([]models.Child, error) 
 	`
 
 	if filter.Bairro != nil && *filter.Bairro != "" {
-		stmt += fmt.Sprintf(" AND bairro = $%d", len(args)+1)
-		args = append(args, *filter.Bairro)
+		stmt += fmt.Sprintf(" AND bairro ILIKE $%d", len(args)+1)
+		args = append(args, "%"+*filter.Bairro+"%")
 	}
 
 	if filter.Revisado != nil && *filter.Revisado {
@@ -150,9 +150,20 @@ func (r *childrenRepository) List(filter models.Filter) ([]models.Child, error) 
 		order := *filter.OrderBy
 		switch order {
 		case "total_alertas":
-			stmt += " ORDER BY total_alertas DESC "
+			stmt += " ORDER BY total_alertas "
 		case "nome":
+
 			stmt += " ORDER BY nome "
+		}
+	}
+
+	if filter.Direction != nil && *filter.Direction != "" {
+		direction := *filter.Direction
+		switch direction {
+		case "asc":
+			stmt += " ASC "
+		case "desc":
+			stmt += " DESC "
 		}
 	}
 

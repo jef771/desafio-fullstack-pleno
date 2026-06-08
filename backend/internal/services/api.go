@@ -51,6 +51,12 @@ func (s *apiService) ListChildren(filter models.Filter) (models.ListChildrenResp
 		filter.OrderBy = &defaultOrder
 	}
 
+	if filter.Direction == nil ||
+		(filter.Direction != nil && *filter.Direction == "") {
+		defaultDirection := "asc"
+		filter.Direction = &defaultDirection
+	}
+
 	total, err := s.repo.Count(filter)
 
 	if err != nil {

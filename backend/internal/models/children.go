@@ -34,6 +34,7 @@ type Filter struct {
 	HasAlerts *bool   `form:"has_alerts"`
 	Revisado  *bool   `form:"revisado"`
 	OrderBy   *string `form:"order"`
+	Direction *string `form:"direction"`
 
 	Page int `form:"page"`
 	Size int `form:"size"`
