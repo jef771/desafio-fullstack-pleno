@@ -18,6 +18,8 @@ email: `tecnico@prefeitura.rio`
 senha: `painel@2024`
 ```
 
+> [docs](https://github.com/jef771/desafio-fullstack-pleno/blob/main/api_doc.md) das apis
+
 ## Decisões e trade-offs
 
 ### Arquitetura
