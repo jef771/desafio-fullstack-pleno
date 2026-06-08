@@ -111,6 +111,7 @@ export default async function ChildrenPage({
             hasAlerts={params.has_alerts ?? ""}
             revisado={params.revisado ?? ""}
             order={params.order ?? ""}
+            direction={params.direction ?? ""}
           />
         </section>
 
