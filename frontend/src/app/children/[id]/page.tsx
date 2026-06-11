@@ -44,8 +44,6 @@ export default async function ChildPage({
     }
   );
 
-  console.log("BACK PARAMS:", backParams.toString());
-
   const backUrl =
     backParams.toString().length > 0
       ? `/children?${backParams.toString()}`

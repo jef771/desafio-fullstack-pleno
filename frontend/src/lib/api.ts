@@ -3,31 +3,6 @@ import { ListChildrenResponse } from "@/types/api";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-export async function login(
-  email: string,
-  password: string
-) {
-  const response = await fetch(
-    `${API_URL}/auth/token`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-    }
-  );
-
-  if (!response.ok) {
-    throw new Error("Credenciais Inválidas");
-  }
-
-  return response.json();
-}
-
 export async function getSummary(
   token: string
 ): Promise<Summary> {
@@ -102,27 +77,6 @@ export async function getChild(
 
   if (!response.ok) {
     throw new Error("Failed to load child");
-  }
-
-  return response.json();
-}
-
-export async function reviewChild(
-  token: string,
-  id: string
-) {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/children/${id}/review`,
-    {
-      method: "PATCH",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
-
-  if (!response.ok) {
-    throw new Error("Failed to review child");
   }
 
   return response.json();
